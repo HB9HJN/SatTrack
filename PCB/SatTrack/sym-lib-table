@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "RPi")(type "Legacy")(uri "${KIPRJMOD}/lib/MCU_RaspberryPi_and_Boards.lib")(options "")(descr ""))
+)

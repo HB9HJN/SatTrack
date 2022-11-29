@@ -57,18 +57,18 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pluscrafter/Pico/Projects/SPI_PWM
+CMAKE_SOURCE_DIR = /home/charpoan/GitHub/SatTrack/SatTrack
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pluscrafter/Pico/Projects/SPI_PWM/build
+CMAKE_BINARY_DIR = /home/charpoan/GitHub/SatTrack/SatTrack/build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/pluscrafter/Pico/Projects/SPI_PWM/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/pluscrafter/Pico/Projects/SPI_PWM/build/CMakeFiles /home/pluscrafter/Pico/Projects/SPI_PWM/build/pico-sdk/src/common/pico_time//CMakeFiles/progress.marks
-	cd /home/pluscrafter/Pico/Projects/SPI_PWM/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/common/pico_time/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pluscrafter/Pico/Projects/SPI_PWM/build/CMakeFiles 0
+	cd /home/charpoan/GitHub/SatTrack/SatTrack/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/charpoan/GitHub/SatTrack/SatTrack/build/CMakeFiles /home/charpoan/GitHub/SatTrack/SatTrack/build/pico-sdk/src/common/pico_time//CMakeFiles/progress.marks
+	cd /home/charpoan/GitHub/SatTrack/SatTrack/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/common/pico_time/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/charpoan/GitHub/SatTrack/SatTrack/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/pluscrafter/Pico/Projects/SPI_PWM/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/common/pico_time/clean
+	cd /home/charpoan/GitHub/SatTrack/SatTrack/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/common/pico_time/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,17 +103,17 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/pluscrafter/Pico/Projects/SPI_PWM/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/common/pico_time/preinstall
+	cd /home/charpoan/GitHub/SatTrack/SatTrack/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/common/pico_time/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/pluscrafter/Pico/Projects/SPI_PWM/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/common/pico_time/preinstall
+	cd /home/charpoan/GitHub/SatTrack/SatTrack/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/common/pico_time/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/pluscrafter/Pico/Projects/SPI_PWM/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/charpoan/GitHub/SatTrack/SatTrack/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Help Target
@@ -135,6 +135,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/pluscrafter/Pico/Projects/SPI_PWM/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/charpoan/GitHub/SatTrack/SatTrack/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

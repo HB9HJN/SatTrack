@@ -1,6 +1,8 @@
 import socket
 import serial
+import time
 import os
+
 
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=0, parity=serial.PARITY_EVEN)
 
@@ -18,6 +20,9 @@ print('Connection address:', addr)
 az = 0.0
 el = 0.0
 
+aaz = 0.0
+eel = 0.0
+
 maz = '0000'
 mel = '0000'
 
@@ -28,8 +33,20 @@ while 1:
 		break
 
 	#print("received data:", data)
-	os.system('clear')
+	#os.system('clear')
+	
+	if(az > 360):
+		aaz = 360
+	else:
+		aaz = az
+	
+	if(el > 90):
+		eel = 90
+	else:
+		eel = el
 
+	response = "{}\n{}\n".format(float(f'{az:.2f}'), float(f'{el:.2f}'))
+	print(response)
 	print("moving to az:{} el: {}".format( maz, mel));
 	print("responing with: \n {}".format(response))
 	
@@ -53,14 +70,13 @@ while 1:
 		elif(mel < 1000):
 			mel = '0' + str(mel)
 
-		conn.send(b' ')
+		#conn.send(b' ')
+		conn.send(bytes(response, 'utf-8'))
 	elif data == b'q\n' or data == b'S\n':
 		print("close command, shutting down")
 		conn.close()
 		exit()
 	elif data == b'p\n':
-
-		response = "{}\n{}\n".format(az, el)
 		conn.send(bytes(response, 'utf-8'))
 
 	try:
@@ -68,15 +84,15 @@ while 1:
 	except:
 		pass
 
-	adc = ser.readline()
-	adc = adc.split(b'/')
-	ser.reset_input_buffer()
-	ser.reset_output_buffer()
 	try:
-		az = float(adc[0])
-		el = float(adc[1])
+		adc = ser.readline()
+		adc = adc.split(b'/')
+		ser.reset_input_buffer()
+		ser.reset_output_buffer()
+	
+		#az = float(adc[0])
+		#el = float(adc[1])
 		tp = adc[2]
-		#print("REAL azimuth:{}, elevation;{}, tp:{}".format(az, el, tp))
 	except:
 		pass
 

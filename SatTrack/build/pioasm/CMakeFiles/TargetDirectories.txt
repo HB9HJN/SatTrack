@@ -1,0 +1,3 @@
+/home/charpoan/GitHub/SatTrack/SatTrack/build/pioasm/CMakeFiles/pioasm.dir
+/home/charpoan/GitHub/SatTrack/SatTrack/build/pioasm/CMakeFiles/edit_cache.dir
+/home/charpoan/GitHub/SatTrack/SatTrack/build/pioasm/CMakeFiles/rebuild_cache.dir

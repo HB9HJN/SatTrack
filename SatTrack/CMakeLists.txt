@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.24)
 
 # Include build functions from Pico SDK
-include(/home/pluscrafter/Pico/pico-sdk/external/pico_sdk_import.cmake)
+include(/home/charpoan/pico-sdk/external/pico_sdk_import.cmake)
 
 # Set name of project (as PROJECT_NAME) and C/C   standards
 project(blink C CXX ASM)

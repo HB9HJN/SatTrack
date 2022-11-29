@@ -1,4 +1,4 @@
-// Padded and checksummed version of: /home/pluscrafter/Pico/Projects/SPI_PWM/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
+// Padded and checksummed version of: /home/charpoan/GitHub/SatTrack/SatTrack/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
 
 .cpu cortex-m0plus
 .thumb

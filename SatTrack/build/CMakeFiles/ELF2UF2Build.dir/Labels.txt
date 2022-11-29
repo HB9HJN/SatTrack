@@ -1,13 +1,13 @@
 # Target labels
  ELF2UF2Build
 # Source files and their labels
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/CMakeFiles/ELF2UF2Build
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/CMakeFiles/ELF2UF2Build.rule
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/CMakeFiles/ELF2UF2Build-complete.rule
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-build.rule
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-configure.rule
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-download.rule
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-install.rule
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-mkdir.rule
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-patch.rule
-/home/pluscrafter/Pico/Projects/SPI_PWM/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-update.rule
+/home/charpoan/GitHub/SatTrack/SatTrack/build/CMakeFiles/ELF2UF2Build
+/home/charpoan/GitHub/SatTrack/SatTrack/build/CMakeFiles/ELF2UF2Build.rule
+/home/charpoan/GitHub/SatTrack/SatTrack/build/CMakeFiles/ELF2UF2Build-complete.rule
+/home/charpoan/GitHub/SatTrack/SatTrack/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-build.rule
+/home/charpoan/GitHub/SatTrack/SatTrack/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-configure.rule
+/home/charpoan/GitHub/SatTrack/SatTrack/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-download.rule
+/home/charpoan/GitHub/SatTrack/SatTrack/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-install.rule
+/home/charpoan/GitHub/SatTrack/SatTrack/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-mkdir.rule
+/home/charpoan/GitHub/SatTrack/SatTrack/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-patch.rule
+/home/charpoan/GitHub/SatTrack/SatTrack/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-update.rule
