@@ -20,12 +20,27 @@ void MotorControl(){
 
     const uint8_t AZ_R = 10, AZ_L = 9, EL_U = 10, EL_D = 9;
     const float minERR = 2;
+    const float slowERR = 10;
 
     while(true){
-        adc_select_input(0);
-        azel[0] = ((float)adc_read()/4096)*360;
-        adc_select_input(1);
-        azel[1] = ((float)adc_read()/4096)*360;
+        if(std::abs(err_az) > slowERR || std::abs(err_el) > slowERR){
+            adc_select_input(0);
+            azel[0] = ((float)adc_read()/4096)*360;
+            adc_select_input(1);
+            azel[1] = ((float)adc_read()/4096)*360;
+        }else{
+            gpio_put(AZ_R, 0);
+            gpio_put(AZ_L, 0);
+            gpio_put(EL_U, 0);
+            gpio_put(EL_D, 0);
+
+            sleep_ms(20);
+
+            adc_select_input(0);
+            azel[0] = ((float)adc_read()/4096)*360;
+            adc_select_input(1);
+            azel[1] = ((float)adc_read()/4096)*360;
+        }
 
         if(queue_is_empty(&angle_data)){
             queue_add_blocking(&angle_data, azel);
@@ -70,7 +85,7 @@ void MotorControl(){
 
 void toPC(){
     uint32_t buffer = 100;
-    
+
     float azel[2] = {10, 10};
     float tgt_azel[2] = {0, 0};
 
