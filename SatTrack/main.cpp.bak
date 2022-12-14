@@ -5,10 +5,12 @@
 #include "pico/multicore.h"
 #include "hardware/adc.h"
 
+queue_t angle_data;
+queue_t tgt_data;
+uint32_t buffer = 100;
 const uint8_t AZ_R = 21, AZ_L = 20, EL_U = 19, EL_D = 18;
 
 void MotorControl(){
-    uint32_t buffer = 1;
 
     float azel[2] = {10, 10};
 
@@ -35,7 +37,7 @@ void MotorControl(){
             gpio_put(EL_U, 0);
             gpio_put(EL_D, 0);
 
-            sleep_ms(400);
+            sleep_ms(300);
 
             adc_select_input(0);
             azel[1] = (((float)adc_read()/maxel)*1800);
@@ -43,8 +45,19 @@ void MotorControl(){
             azel[0] = ((float)adc_read()/maxaz)*3600;
         }
 
+        if(queue_is_empty(&angle_data)){
+            queue_add_blocking(&angle_data, azel);
+        }
+
+        if(queue_is_full(&tgt_data)){
+            queue_remove_blocking(&tgt_data, tgt_azel);
+        }
+
         err_azel[0] = tgt_azel[0] - azel[0];
         err_azel[1] = tgt_azel[1] - azel[1];
+
+
+        //printf("%f/%f/%f/%f/%u\n", azel[0], azel[1], err_azel[0], err_azel[1], buffer);
 
         if(std::abs(err_azel[0]) > minERR){
             if (err_azel[0] <= 0){
@@ -74,18 +87,36 @@ void MotorControl(){
             gpio_put(EL_D, 0);
         }
 
+        sleep_ms(100);
+    }
+}
+
+void toPC(){
+    uint32_t buffer = 100;
+
+    float azel[2] = {10, 10};
+    float tgt_azel[2] = {1800, 900};
+
+    
+    while(true){
+
+        if(queue_is_full(&angle_data)){
+            queue_remove_blocking(&angle_data, azel);
+        }
+
+        if(queue_is_empty(&tgt_data)){
+            queue_add_blocking(&tgt_data, tgt_azel);
+        }
+
         printf("%f/%f/%u\n", azel[0], azel[1], buffer);
-        fflush(NULL);
         scanf("%u\r\n", &buffer);
 
         tgt_azel[0] = (buffer/10000);
         tgt_azel[1] = (buffer - (tgt_azel[0] * 10000));
 
-        sleep_ms(600);
+        sleep_ms(500);
     }
 }
-
-
 
 int main() {
     stdio_init_all();
@@ -104,5 +135,10 @@ int main() {
     gpio_set_dir(EL_D, GPIO_OUT);
 
 
-    MotorControl();
+    queue_init(&angle_data, 2 * sizeof(float), 1);
+    queue_init(&tgt_data, 2 * sizeof(float), 1);
+    
+
+    multicore_launch_core1(MotorControl);
+    toPC();
 }

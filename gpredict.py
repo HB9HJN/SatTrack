@@ -1,10 +1,9 @@
 import socket
 import serial
-import time
-import os
+from time import sleep
 
 
-ser = serial.Serial('/dev/ttyACM0', 9600, timeout=0, parity=serial.PARITY_EVEN)
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1, parity=serial.PARITY_EVEN)
 
 TCP_IP = '127.0.0.1'
 TCP_PORT = 4533
@@ -23,8 +22,11 @@ el = 0.0
 aaz = 0.0
 eel = 0.0
 
-maz = '0000'
-mel = '0000'
+mmaz = 0
+mmel = 0
+
+maz = '9999'
+mel = '9999'
 
 response = " "
 while 1:
@@ -47,28 +49,33 @@ while 1:
 
 	response = "{}\n{}\n".format(float(f'{az:.2f}'), float(f'{el:.2f}'))
 	print(response)
-	print("moving to az:{} el: {}".format( maz, mel));
+	print("moving to az:{} el: {}".format( mmaz, mmel));
+	print("mmoving to az:{} el: {}".format( maz, mel));
 	print("responing with: \n {}".format(response))
+
+	if(mmaz == 0):
+		maz = '000' + str(mmaz)
+	if(mmaz < 100):
+		maz = '00' + str(mmaz)
+	elif(mmaz < 1000):
+		maz = '0' + str(mmaz)
+	else:
+		maz = str(mmaz)
+
+	if(mmel == 0):
+		mel = '000' + str(mmel)
+	elif(mmel < 100):
+		mel = '00' + str(mmel)
+	elif(mmel < 1000):
+		mel = '0' + str(mmel)
+	else:
+		mel  = str(mmel)
 	
 	if (data.startswith(b'P')):
 		values = data.split(b' ')
 		#print(values)
-		maz = int(float(values[1])*10)
-		mel = int(float(values[2])*10)
-
-		if(maz == 0):
-			maz = '000' + str(maz)
-		if(maz < 100):
-			maz = '00' + str(maz)
-		elif(maz < 1000):
-			maz = '0' + str(maz)
-
-		if(mel == 0):
-			mel = '000' + str(mel)
-		elif(mel < 100):
-			mel = '00' + str(mel)
-		elif(mel < 1000):
-			mel = '0' + str(mel)
+		mmaz = int(float(values[1])*10)-1800 +3600
+		mmel = int(float(values[2])*10)
 
 		#conn.send(b' ')
 		conn.send(bytes(response, 'utf-8'))
@@ -80,21 +87,26 @@ while 1:
 		conn.send(bytes(response, 'utf-8'))
 
 	try:
+		print(str(maz + mel))
+		ser.reset_output_buffer()
 		ser.write(bytes(maz + mel +'\r\n', 'ascii'))
+		ser.reset_output_buffer()
 	except:
-		pass
+		print('nosend')
+		ser.reset_output_buffer()
+		print(str(maz + mel))
 
 	try:
-		adc = ser.readline()
-		adc = adc.split(b'/')
-		ser.reset_input_buffer()
-		ser.reset_output_buffer()
-	
-		#az = float(adc[0])
-		#el = float(adc[1])
-		tp = adc[2]
+		if(ser.in_waiting > 0 ):
+			adc = ser.readline()
+			ser.reset_input_buffer()
+			ser.read_all()
+			adc = adc.split(b'/')
+			print(adc)
 	except:
-		pass
+		print('nor')
+
+	sleep(1)
 
 	
 	
