@@ -2,13 +2,15 @@ import socket
 import serial
 from time import sleep
 
-
+#initalize Serial port
 ser = serial.Serial('/dev/ttyACM2', 9600, timeout=1, parity=serial.PARITY_EVEN)
+
 
 TCP_IP = '127.0.0.1'
 TCP_PORT = 4533
 BUFFER_SIZE = 100
 
+#initalize/connect to TCP Port // data parsing form https://adventurist.me/posts/0136
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT))
 s.listen(1)
@@ -16,40 +18,39 @@ s.listen(1)
 conn, addr = s.accept()
 print('Connection address:', addr)
 
-az = 0.0
-el = 0.0
+az = 0.0 #AZ from Pico
+el = 0.0 #EL from Pico
 
-aaz = 0.0
-eel = 0.0
+mmaz = 0 #AZ from gPredict
+mmel = 0 #EL from gPredict
 
-mmaz = 0
-mmel = 0
+maz = '9999' #AZ to Pico
+mel = '9999' #EL to Pico
 
-maz = '9999'
-mel = '9999'
-
-response = " "
+response = " " # data to gPredict
 while 1:
-	data = conn.recv(BUFFER_SIZE)
-	if not data:
-		break
+	data = conn.recv(BUFFER_SIZE) #read data fronm gPredict
+	response = "{}\n{}\n".format(float(f'{az:.2f}'), float(f'{el:.2f}')) #parse data to gPredict
 
-	#print("received data:", data)
-	#os.system('clear')
-	
-	if(az > 360):
-		aaz = 360
-	else:
-		aaz = az
-	
-	if(el > 90):
-		eel = 90
-	else:
-		eel = el
+	if (data.startswith(b'P')):
+		values = data.split(b' ')
+		#print(values)
+		mmaz = int(float(values[1])*10)+1800 #convert to integer and add 180° // 1800 because 0.1° resolution -> uneccessary...
+		mmel = int(float(values[2])*10) #convert to interger
 
-	response = "{}\n{}\n".format(float(f'{az:.2f}'), float(f'{el:.2f}'))
+		conn.send(bytes(response, 'utf-8')) #send data from Pico to gPredict
+	elif data == b'q\n' or data == b'S\n':
+		print("close command, shutting down") #closes Program
+		conn.close()
+		exit()
+	elif data == b'p\n':
+		conn.send(bytes(response, 'utf-8')) # send data from Pico to gPredict
+
 	print(response)
 	print("moving to az:{} el: {}".format( mmaz, mmel));
+
+	# Parse data for Pico:
+	# AZ: 180°, EL: 45° -> 18000450
 
 	if(mmaz == 0):
 		maz = '000' + str(mmaz)
@@ -68,22 +69,8 @@ while 1:
 		mel = '0' + str(mmel)
 	else:
 		mel  = str(mmel)
-	
-	if (data.startswith(b'P')):
-		values = data.split(b' ')
-		#print(values)
-		mmaz = int(float(values[1])*10)+1800
-		mmel = int(float(values[2])*10)
 
-		#conn.send(b' ')
-		conn.send(bytes(response, 'utf-8'))
-	elif data == b'q\n' or data == b'S\n':
-		print("close command, shutting down")
-		conn.close()
-		exit()
-	elif data == b'p\n':
-		conn.send(bytes(response, 'utf-8'))
-
+	#Try to write to the Pico and clear buffer if not print nosend
 	try:
 		print("az: " + str(mmaz/10) + " el: " + str(mmel/10))
 		ser.reset_output_buffer()
@@ -95,6 +82,7 @@ while 1:
 		ser.reset_output_buffer()
 		print(str(maz + mel))
 
+	#Try to read to the Pico and clear buffer if not print nor
 	try:
 		if(ser.in_waiting > 0 ):
 			adc = ser.readline()
@@ -109,7 +97,7 @@ while 1:
 	except:
 		print('nor')
 
-	sleep(1.5)
+	sleep(1.6) #sleep for clearing buffer.
 	
 
 	
