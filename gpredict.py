@@ -3,7 +3,7 @@ import serial
 from time import sleep
 
 
-ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1, parity=serial.PARITY_EVEN)
+ser = serial.Serial('/dev/ttyACM2', 9600, timeout=1, parity=serial.PARITY_EVEN)
 
 TCP_IP = '127.0.0.1'
 TCP_PORT = 4533
@@ -50,8 +50,6 @@ while 1:
 	response = "{}\n{}\n".format(float(f'{az:.2f}'), float(f'{el:.2f}'))
 	print(response)
 	print("moving to az:{} el: {}".format( mmaz, mmel));
-	print("mmoving to az:{} el: {}".format( maz, mel));
-	print("responing with: \n {}".format(response))
 
 	if(mmaz == 0):
 		maz = '000' + str(mmaz)
@@ -74,7 +72,7 @@ while 1:
 	if (data.startswith(b'P')):
 		values = data.split(b' ')
 		#print(values)
-		mmaz = int(float(values[1])*10)-1800 +3600
+		mmaz = int(float(values[1])*10)+1800
 		mmel = int(float(values[2])*10)
 
 		#conn.send(b' ')
@@ -87,10 +85,11 @@ while 1:
 		conn.send(bytes(response, 'utf-8'))
 
 	try:
-		print(str(maz + mel))
+		print("az: " + str(mmaz/10) + " el: " + str(mmel/10))
 		ser.reset_output_buffer()
 		ser.write(bytes(maz + mel +'\r\n', 'ascii'))
 		ser.reset_output_buffer()
+		
 	except:
 		print('nosend')
 		ser.reset_output_buffer()
@@ -103,10 +102,15 @@ while 1:
 			ser.read_all()
 			adc = adc.split(b'/')
 			print(adc)
+			print("az: " + str(float(adc[0])/10) + " el: " + str(float(adc[1])/10) + " RECEV:" + str(adc[2]))
+			az = int(float(adc[0])/10)
+			el = int(float(adc[1])/10)
+			sleep(0.5)
 	except:
 		print('nor')
 
-	sleep(1)
+	sleep(1.5)
+	
 
 	
 	
