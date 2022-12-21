@@ -86,7 +86,7 @@ Der Programflow sieht wie folgt aus:
 
 \section*{Antennenrotor-Controller}
 \subsection*{Picocontroller}
-Der Pico steurt den Rotorcontroller durch den DIN-8 Stecker. Durch die Dokumentation des Controllers wurde herausgegfunden welcher Pin welche Funktion hat. Zudem konnte herausgefunden werden, dass um die einzelnen Motoren anzusteuern, die "Steuer"-Pins auf GND kurzgeschlossen werden müssen.
+Der Pico steurt den Rotorcontroller durch den DIN-8 Stecker. Durch die \textcolor{blue}{\href{https://dk3wn.info/wp/wp-content/uploads/2018/10/kr5400.pdf}{Dokumentation}} des Controllers wurde herausgegfunden welcher Pin welche Funktion hat. Zudem konnte herausgefunden werden, dass um die einzelnen Motoren anzusteuern, die "Steuer"-Pins auf GND kurzgeschlossen werden müssen.
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{Wiring}
@@ -98,7 +98,7 @@ Der Pico steurt den Rotorcontroller durch den DIN-8 Stecker. Durch die Dokumenta
 Durch Anmerkung von Herr Lerjen vom Projekt Stratos, konnte ein Spannungsabfall beobachtet werden, wenn die Motoren stoppen. Dies ist ein Problem, wenn der Motor den Endwinkel erreicht, da die Werte nicht mehr stimmen. Deswegen stoppen alle Motoren beim auslesen der Spannung , wenn der Motor in der nähe des Soll-Winkels ist. Jedoch gab es dann Probleme, da der Motor "oszillierte". Dieses wurde so gelöst, das ein minimaler Abweichungswinkel vom Soll-Winkel eingestellt wurde. Und dass der Motor sich um genug grosse Winkel bewegt.
 
 \section*{Pythonskript}
-Gpredict steuert die komerziellen via TCP an und es konnte schon eine Analyse des Protokolls mit Beispiel Python code gefunden werden. \href{https://adventurist.me/posts/0136}{https://adventurist.me/posts/0136}. Dieser wurde angepasst und der Code zum steuern des Pico wurde hinzugefügt.
+Gpredict steuert die komerziellen via TCP an und es konnte schon eine Analyse des Protokolls mit Beispiel \textcolor{blue}{\href{https://adventurist.me/posts/0136}{Python-Code}} gefunden werden. Dieser wurde angepasst und der Code zum steuern des Pico wurde hinzugefügt.
 
 \newpage
 
